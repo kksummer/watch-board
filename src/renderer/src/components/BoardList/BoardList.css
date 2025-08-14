@@ -1,0 +1,54 @@
+@charset "UTF-8";
+.board-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
+}
+.board-list .board-list-item {
+  padding: 10px 18px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 无圆角 */
+}
+.board-list .board-list-item.selected {
+  background: rgb(79, 111, 205);
+  color: #fff;
+}
+.board-list .board-list-item:hover {
+  background: #e0e7ff;
+}
+.board-list .board-list-item.add-board {
+  color: #fff;
+  justify-content: center;
+}
+.board-list .add-board-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 18px;
+  background: #f7f8fa;
+  margin-top: -4px;
+}
+.board-list .add-board-form input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 1rem;
+}
+.board-list .add-board-form button {
+  padding: 8px;
+  border-radius: 4px;
+  background: #4f8cff;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}/*# sourceMappingURL=BoardList.css.map */

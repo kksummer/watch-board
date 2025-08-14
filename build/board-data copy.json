@@ -1,0 +1,37 @@
+{
+  "boards": [
+    {
+      "id": "board-1",
+      "name": "个人春言板",
+      "lists": [
+        {
+          "id": "list-1",
+          "cards": [
+            {
+              "id": "card-1",
+              "desc": "优先级级"
+            }
+          ]
+        },
+        {
+          "id": "list-2",
+          "cards": [
+            {
+              "id": "card-2",
+              "desc": "学习Figma快捷键"
+            }
+          ]
+        },
+        {
+          "id": "list-3",
+          "cards": [
+            {
+              "id": "card-3",
+              "desc": "修复状态统计"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+.banner {
+  width: 100%;
+  background: rgb(79, 111, 205);
+  color: #fff;
+  padding: 24px 0 16px 32px;
+  box-sizing: border-box;
+  /* 无圆角 */
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 2px;
+  }
+}

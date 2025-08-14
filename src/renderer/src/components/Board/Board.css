@@ -1,0 +1,13 @@
+.board {
+  padding: 24px;
+  color: black;
+}
+.board .board-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.board .board-lists {
+  display: flex;
+  gap: 24px;
+}/*# sourceMappingURL=Board.css.map */

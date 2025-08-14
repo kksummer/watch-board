@@ -1,0 +1,82 @@
+{
+  "boards": [
+    {
+      "id": "board-1",
+      "name": "个人春言板",
+      "lists": [
+        {
+          "id": "list-1",
+          "cards": [
+            {
+              "id": "card-1",
+              "desc": "优先级级"
+            },
+            {
+              "id": "card-4",
+              "desc": "新增卡片示例"
+            },
+            {
+              "id": "card-5",
+              "desc": "另一个卡片示例"
+            }
+          ]
+        },
+        {
+          "id": "list-2",
+          "cards": [
+            {
+              "id": "card-2",
+              "desc": "学习Figma快捷键"
+            }
+          ]
+        },
+        {
+          "id": "list-3",
+          "cards": [
+            {
+              "id": "card-3",
+              "desc": "修复状态统计"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "board-2",
+      "name": "工作任务板",
+      "lists": [
+        {
+          "id": "list-1",
+          "cards": [
+            {
+              "id": "card-1",
+              "desc": "完成项目报告"
+            },
+            {
+              "id": "card-2",
+              "desc": "设计新功能原型"
+            }
+          ]
+        },
+        {
+          "id": "list-2",
+          "cards": [
+            {
+              "id": "card-2",
+              "desc": "团队会议准备"
+            }
+          ]
+        },
+        {
+          "id": "list-3",
+          "cards": [
+            {
+              "id": "card-3",
+              "desc": "客户反馈处理"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
