@@ -9,6 +9,7 @@ interface ListProps {
 }
 
 const List: React.FC<ListProps> = ({ list }) => {
+  const [cards, setCards] = useState(list.cards)
   const [adding, setAdding] = useState(false)
   const [newDesc, setNewDesc] = useState('')
   const [editingTitle, setEditingTitle] = useState(false)
@@ -60,7 +61,15 @@ const List: React.FC<ListProps> = ({ list }) => {
 
   const handleAddCard = () => {
     if (newDesc.trim()) {
-      // 实际应调用父组件方法
+      setCards([
+        ...cards,
+        {
+          id: `card-${Date.now()}`,
+          desc: newDesc,
+          time_stamp: Date.now().toString(),
+          done: false
+        }
+      ])
       setAdding(false)
       setNewDesc('')
     }
@@ -74,6 +83,11 @@ const List: React.FC<ListProps> = ({ list }) => {
     if (window.confirm('确定要删除该列表吗？')) {
       // 实际应调用父组件方法
     }
+  }
+  // 切换卡片的完成状态
+  const handleToggleDone = (id) => {
+    // console.log(id)
+    setCards(cards.map((card) => (card.id === id ? { ...card, done: !card.done } : card)))
   }
 
   return (
@@ -91,10 +105,12 @@ const List: React.FC<ListProps> = ({ list }) => {
           </>
         )}
       </div>
-      <div className="list-cards">
-        {list.cards.map((card) => (
-          <Card key={card.id} card={card} />
-        ))}
+      <div className="list-cards card-animate">
+        {[...cards]
+          .sort((a, b) => (a.done === b.done ? 0 : a.done ? 1 : -1))
+          .map((card) => (
+            <Card key={card.id} card={card} onToggleDone={() => handleToggleDone(card.id)} />
+          ))}
       </div>
       <div className="add-card-li" onClick={() => setAdding(true)}>
         + 添加卡片

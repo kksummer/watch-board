@@ -1,7 +1,18 @@
+// 卡片排序动画
+.card-animate {
+  transition: all 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.card-animate .card {
+  transition:
+    transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1),
+    opacity 0.5s;
+}
 .list {
   background: #e3f0ff;
   border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(79,140,255,0.12), 0 1.5px 6px rgba(0,0,0,0.08);
+  box-shadow:
+    0 4px 16px rgba(79, 140, 255, 0.12),
+    0 1.5px 6px rgba(0, 0, 0, 0.08);
   padding: 16px;
   width: 260px;
   min-width: 260px;
@@ -10,12 +21,12 @@
   .list-title-area {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 12px;
     .list-title {
       font-size: 1.2rem;
       font-weight: 500;
       color: #222;
-      margin-right: 8px;
     }
     .edit-list-title-form {
       display: flex;

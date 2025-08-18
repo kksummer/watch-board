@@ -3,39 +3,57 @@
     {
       "id": "board-1",
       "name": "个人春言板",
+      "time_stamp": 1692345600000,
+      "done": false,
       "lists": [
         {
           "id": "list-1",
+          "time_stamp": 1692345601000,
+          "done": false,
           "cards": [
             {
               "id": "card-1",
-              "desc": "优先级级"
+              "desc": "优先级级",
+              "time_stamp": 1692345602000,
+              "done": false
             },
             {
               "id": "card-4",
-              "desc": "新增卡片示例"
+              "desc": "新增卡片示例",
+              "time_stamp": 1692345603000,
+              "done": false
             },
             {
               "id": "card-5",
-              "desc": "另一个卡片示例"
+              "desc": "另一个卡片示例",
+              "time_stamp": 1692345604000,
+              "done": false
             }
           ]
         },
         {
           "id": "list-2",
+          "time_stamp": 1692345601100,
+          "done": 1,
           "cards": [
             {
               "id": "card-2",
-              "desc": "学习Figma快捷键"
+              "desc": "学习Figma快捷键",
+              "time_stamp": 1692345602100,
+              "done": false
             }
           ]
         },
         {
           "id": "list-3",
+          "time_stamp": 1692345601200,
+          "done": 1,
           "cards": [
             {
               "id": "card-3",
-              "desc": "修复状态统计"
+              "desc": "修复状态统计",
+              "time_stamp": 1692345602200,
+              "done": false
             }
           ]
         }
@@ -44,35 +62,51 @@
     {
       "id": "board-2",
       "name": "工作任务板",
+      "time_stamp": 1692345605000,
+      "done": false,
       "lists": [
         {
           "id": "list-1",
+          "time_stamp": 1692345605100,
+          "done": false,
           "cards": [
             {
               "id": "card-1",
-              "desc": "完成项目报告"
+              "desc": "完成项目报告",
+              "time_stamp": 1692345605200,
+              "done": false
             },
             {
               "id": "card-2",
-              "desc": "设计新功能原型"
+              "desc": "设计新功能原型",
+              "time_stamp": 1692345605300,
+              "done": false
             }
           ]
         },
         {
           "id": "list-2",
+          "time_stamp": 1692345605110,
+          "done": 1,
           "cards": [
             {
               "id": "card-2",
-              "desc": "团队会议准备"
+              "desc": "团队会议准备",
+              "time_stamp": 1692345605210,
+              "done": false
             }
           ]
         },
         {
           "id": "list-3",
+          "time_stamp": 1692345605120,
+          "done": 1,
           "cards": [
             {
               "id": "card-3",
-              "desc": "客户反馈处理"
+              "desc": "客户反馈处理",
+              "time_stamp": 1692345605220,
+              "done": false
             }
           ]
         }
