@@ -3,7 +3,7 @@ import './BoardListMenu.scss'
 
 interface BoardListMenuProps {
   onEdit: () => void
-  onDelete: () => void
+  onDelete: (id: string) => void
 }
 
 const BoardListMenu: React.FC<BoardListMenuProps> = ({ onEdit, onDelete }) => {
@@ -31,14 +31,7 @@ const BoardListMenu: React.FC<BoardListMenuProps> = ({ onEdit, onDelete }) => {
           <div className="menu-item" onClick={onEdit}>
             编辑
           </div>
-          <div
-            className="menu-item"
-            onClick={(e) => {
-              e.stopPropagation()
-              console.log('BoardListMenu onDelete')
-              onDelete()
-            }}
-          >
+          <div className="menu-item" onClick={() => onDelete('board-id')}>
             删除
           </div>
         </div>
