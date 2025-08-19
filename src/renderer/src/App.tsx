@@ -4,19 +4,19 @@ import BoardList from './components/BoardList/BoardList'
 import Board from './components/Board/Board'
 import './App.scss'
 import { BoardType } from './types'
-import { json } from 'stream/consumers'
 
 function App(): React.JSX.Element {
   const [boards, setBoards] = useState<BoardType[]>([])
   const [selectedId, setSelectedId] = useState<string>('')
   const selectedBoard = boards.find((b) => b.id === selectedId)
-  const fetchBoards = async () => {
+  const fetchBoards = async (): Promise<void> => {
     try {
-      const res = await window.api.getBoards()
+      const res = await window.api.getBoardsData()
       const res_json = JSON.parse(res)
-      console.log(Array.isArray(res_json.boards))
+      // console.log(Array.isArray(res_json.boards))
 
       if (Array.isArray(res_json.boards)) {
+        console.log('Fetched boards:', res_json.boards)
         setBoards(res_json.boards)
         if (res_json.length > 0) setSelectedId(res_json[0].id)
       }
@@ -24,19 +24,49 @@ function App(): React.JSX.Element {
       console.error('Error fetching boards:', err)
     }
   }
+  const updateBoards = async (newBoards: BoardType[]): Promise<void> => {
+    try {
+      await window.api.setBoardsData(JSON.stringify({ boards: newBoards }))
+      setBoards(newBoards)
+      if (newBoards.length > 0) setSelectedId(newBoards[0].id)
+    } catch (err) {
+      console.error('Error updating boards:', err)
+    }
+  }
 
+  // 初始化
   useEffect(() => {
     fetchBoards()
   }, [])
+
+  // useEffect(() => {
+  //   if (boards.length > 0) {
+  //     window.api.setBoardsData(JSON.stringify({ boards }))
+  //   }
+  // }, [boards])
 
   return (
     <div className="app-container">
       <Banner />
       <div className="main-content">
         <div className="sidebar">
-          <BoardList boards={boards} selectedId={selectedId} onSelect={setSelectedId} />
+          <BoardList
+            boards={boards}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            updateBoards={updateBoards}
+          />
         </div>
-        <div className="board-area">{selectedBoard && <Board board={selectedBoard} />}</div>
+        <div className="board-area">
+          {selectedBoard && (
+            <Board
+              board={selectedBoard}
+              boards={boards}
+              updateBoards={updateBoards}
+              selectedId={selectedId}
+            />
+          )}
+        </div>
       </div>
     </div>
   )

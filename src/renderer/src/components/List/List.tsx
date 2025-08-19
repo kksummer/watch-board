@@ -17,14 +17,14 @@ const List: React.FC<ListProps> = ({ list }) => {
 
   React.useEffect(() => {
     if (!adding) return
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent): void => {
       const form = document.querySelector('.add-card-form')
       if (form && !form.contains(e.target as Node)) {
         setAdding(false)
         setNewDesc('')
       }
     }
-    const handleEsc = (e: KeyboardEvent) => {
+    const handleEsc = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
         setAdding(false)
         setNewDesc('')
@@ -40,13 +40,13 @@ const List: React.FC<ListProps> = ({ list }) => {
 
   React.useEffect(() => {
     if (!editingTitle) return
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent): void => {
       const form = document.querySelector('.edit-list-title-form')
       if (form && !form.contains(e.target as Node)) {
         setEditingTitle(false)
       }
     }
-    const handleEsc = (e: KeyboardEvent) => {
+    const handleEsc = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
         setEditingTitle(false)
       }
@@ -59,7 +59,7 @@ const List: React.FC<ListProps> = ({ list }) => {
     }
   }, [editingTitle])
 
-  const handleAddCard = () => {
+  const handleAddCard = (): void => {
     if (newDesc.trim()) {
       setCards([
         ...cards,
@@ -75,19 +75,43 @@ const List: React.FC<ListProps> = ({ list }) => {
     }
   }
 
-  const handleEditTitle = () => {
+  const handleEditTitle = (): void => {
     setEditingTitle(true)
   }
 
-  const handleDeleteList = () => {
+  const handleDeleteList = (): void => {
     if (window.confirm('确定要删除该列表吗？')) {
       // 实际应调用父组件方法
     }
   }
   // 切换卡片的完成状态
-  const handleToggleDone = (id) => {
+  const handleToggleDone = (id: string): void => {
     // console.log(id)
     setCards(cards.map((card) => (card.id === id ? { ...card, done: !card.done } : card)))
+  }
+
+  // 删除卡片
+  const handleDeleteCard = async (id: string): Promise<boolean> => {
+    if (window.confirm('确定要删除该卡片吗？')) {
+      // 1. 获取整个 board 数据
+      const res = await window.api.getBoards()
+      const res_json = JSON.parse(res)
+      const boards = res_json.boards
+      console.log(boards)
+      // 2. 找到当前 list，删除卡片
+      const newBoard = {
+        ...boards[0],
+        lists: boards[0].lists.map((l: ListType) =>
+          l.id === list.id ? { ...l, cards: l.cards.filter((c) => c.id !== id) } : l
+        )
+      }
+      console.log(newBoard)
+      // 3. 更新 board 数据
+      await window.api.setBoards(newBoard)
+      // 4. 更新本地 cards 状态
+      setCards(cards.filter((c) => c.id !== id))
+    }
+    return true
   }
 
   return (
@@ -109,7 +133,12 @@ const List: React.FC<ListProps> = ({ list }) => {
         {[...cards]
           .sort((a, b) => (a.done === b.done ? 0 : a.done ? 1 : -1))
           .map((card) => (
-            <Card key={card.id} card={card} onToggleDone={() => handleToggleDone(card.id)} />
+            <Card
+              key={card.id}
+              card={card}
+              onToggleDone={() => handleToggleDone(card.id)}
+              onDelete={() => handleDeleteCard(card.id)}
+            />
           ))}
       </div>
       <div className="add-card-li" onClick={() => setAdding(true)}>

@@ -4,11 +4,11 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 
 const api = {
-  getBoards: () => {
-    return ipcRenderer.invoke('getBoards')
+  getBoardsData: () => {
+    return ipcRenderer.invoke('getBoardsData')
   },
-  setBoards: (data) => {
-    return ipcRenderer.invoke('setBoards', data)
+  setBoardsData: (data) => {
+    return ipcRenderer.invoke('setBoardsData', data)
   }
 }
 

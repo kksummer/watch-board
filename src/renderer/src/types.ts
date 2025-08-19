@@ -17,4 +17,6 @@ export interface BoardType {
   id: string
   name: string
   lists: ListType[]
+  time_stamp: string
+  done: boolean // 可选属性，表示看板是否已完成
 }

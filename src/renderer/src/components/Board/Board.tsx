@@ -5,22 +5,25 @@ import { BoardType } from '../../types'
 
 interface BoardProps {
   board: BoardType
+  boards: BoardType[]
+  updateBoards: (newBoards: BoardType[]) => Promise<void>
+  selectedId: string
 }
 
-const Board: React.FC<BoardProps> = ({ board }) => {
+const Board: React.FC<BoardProps> = ({ board, boards, updateBoards, selectedId }) => {
   const [adding, setAdding] = useState(false)
   const [newTitle, setNewTitle] = useState('')
 
   React.useEffect(() => {
     if (!adding) return
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent): void => {
       const form = document.querySelector('.add-list-form')
       if (form && !form.contains(e.target as Node)) {
         setAdding(false)
         setNewTitle('')
       }
     }
-    const handleEsc = (e: KeyboardEvent) => {
+    const handleEsc = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
         setAdding(false)
         setNewTitle('')
@@ -34,11 +37,23 @@ const Board: React.FC<BoardProps> = ({ board }) => {
     }
   }, [adding])
 
-  const handleAddList = () => {
+  const handleAddList = async (): Promise<void> => {
     if (newTitle.trim()) {
-      // 实际应调用父组件方法
       setAdding(false)
       setNewTitle('')
+      const newList = {
+        id: Date.now().toString(),
+        title: newTitle,
+        time_stamp: Date.now().toString(),
+        cards: [],
+        done: false
+      }
+      // 构造新的 board
+      const newBoard = { ...board, lists: [...board.lists, newList] }
+      // 构造新的 boards 数组
+      const newBoards = boards.map((b) => (b.id === selectedId ? newBoard : b))
+      console.log('更新后的 boards:', newBoards)
+      await updateBoards(newBoards)
     }
   }
 

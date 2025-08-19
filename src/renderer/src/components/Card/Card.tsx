@@ -6,21 +6,24 @@ import CardMenu from './CardMenu'
 interface CardProps {
   card: CardType
   onToggleDone: () => void
+  onDelete: () => void
 }
 
-const Card: React.FC<CardProps> = ({ card, onToggleDone }) => {
+const Card: React.FC<CardProps> = ({ card, onToggleDone, onDelete }) => {
   const [editing, setEditing] = useState(false)
   const [desc, setDesc] = useState(card.desc)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!editing) return
-    const handleClick = (e: MouseEvent) => {
+    // 监听点击事件，点击其他地方时关闭编辑状态
+    const handleClick = (e: MouseEvent): void => {
       const form = document.querySelector('.edit-card-form')
       if (form && !form.contains(e.target as Node)) {
         setEditing(false)
       }
     }
-    const handleEsc = (e: KeyboardEvent) => {
+    // 监听键盘事件，按下Esc键时关闭编辑状态
+    const handleEsc = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
         setEditing(false)
       }
@@ -33,13 +36,9 @@ const Card: React.FC<CardProps> = ({ card, onToggleDone }) => {
     }
   }, [editing])
 
-  const handleEdit = () => setEditing(true)
-  const handleDelete = () => {
-    if (window.confirm('确定要删除该卡片吗？')) {
-      // 实际应调用父组件方法
-    }
-  }
-  const handleConfirm = () => {
+  const handleEdit = (): void => setEditing(true)
+
+  const handleConfirm = (): void => {
     setEditing(false)
     // 实际应调用父组件方法
   }
@@ -69,7 +68,7 @@ const Card: React.FC<CardProps> = ({ card, onToggleDone }) => {
           >
             {desc}
           </span>
-          <CardMenu onEdit={handleEdit} onDelete={handleDelete} />
+          <CardMenu onEdit={handleEdit} onDelete={onDelete} />
         </>
       )}
     </div>

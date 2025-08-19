@@ -11,7 +11,7 @@ const BoardListMenu: React.FC<BoardListMenuProps> = ({ onEdit, onDelete }) => {
 
   React.useEffect(() => {
     if (!open) return
-    const handleClick = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent): void => {
       const menu = document.querySelector('.board-list-menu')
       if (menu && !menu.contains(e.target as Node)) {
         setOpen(false)
@@ -22,7 +22,7 @@ const BoardListMenu: React.FC<BoardListMenuProps> = ({ onEdit, onDelete }) => {
   }, [open])
 
   return (
-    <div className="board-list-menu">
+    <div className="board-list-menu" onClick={() => console.log('menu wrapper click')}>
       <span className="menu-icon" onClick={() => setOpen(!open)}>
         &#8942;
       </span>
@@ -31,7 +31,14 @@ const BoardListMenu: React.FC<BoardListMenuProps> = ({ onEdit, onDelete }) => {
           <div className="menu-item" onClick={onEdit}>
             编辑
           </div>
-          <div className="menu-item" onClick={onDelete}>
+          <div
+            className="menu-item"
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('BoardListMenu onDelete')
+              onDelete()
+            }}
+          >
             删除
           </div>
         </div>
