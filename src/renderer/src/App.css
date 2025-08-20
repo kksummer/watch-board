@@ -32,7 +32,8 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 32px;
+  width: calc(100vw - 280px);
+  padding: 0px;
   box-sizing: border-box;
   background: #fff;
 }

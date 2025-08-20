@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
       if (Array.isArray(res_json.boards)) {
         console.log('Fetched boards:', res_json.boards)
         setBoards(res_json.boards)
-        if (res_json.length > 0) setSelectedId(res_json[0].id)
+        if (res_json.boards.length > 0) setSelectedId(res_json.boards[0].id)
       }
     } catch (err) {
       console.error('Error fetching boards:', err)

@@ -6,6 +6,7 @@ import { BoardType } from '../../types'
 interface BoardProps {
   board: BoardType
   boards: BoardType[]
+
   updateBoards: (newBoards: BoardType[]) => Promise<void>
   selectedId: string
 }
@@ -63,12 +64,24 @@ const Board: React.FC<BoardProps> = ({ board, boards, updateBoards, selectedId }
         {board.lists
           .filter((list) => !list.done)
           .map((list) => (
-            <List key={list.id} list={list} />
+            <List
+              key={list.id}
+              boards={boards}
+              boardId={board.id}
+              list={list}
+              updateBoards={updateBoards}
+            />
           ))}
         {board.lists
           .filter((list) => list.done)
           .map((list) => (
-            <List key={list.id} list={list} />
+            <List
+              key={list.id}
+              boards={boards}
+              boardId={board.id}
+              list={list}
+              updateBoards={updateBoards}
+            />
           ))}
         {/* 添加list按钮 */}
         <div className="list add-list">
@@ -79,7 +92,6 @@ const Board: React.FC<BoardProps> = ({ board, boards, updateBoards, selectedId }
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="请输入列表标题"
                 autoFocus
-                style={{ marginBottom: 8 }}
               />
               <button onClick={handleAddList}>确认</button>
             </div>

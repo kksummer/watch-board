@@ -1,5 +1,7 @@
 .board {
-  padding: 24px;
+  padding: 24px 0;
+  height: 95%;
+  overflow-x: scroll;
   color: black;
 }
 .board .board-title {
@@ -9,5 +11,10 @@
 }
 .board .board-lists {
   display: flex;
+  padding: 0 16px;
   gap: 24px;
+}
+.board .add-list .add-list-title {
+  height: 40px;
+  line-height: 40px;
 }/*# sourceMappingURL=Board.css.map */

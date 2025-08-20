@@ -5,14 +5,65 @@
   padding: 12px 16px;
   color: #222;
   font-family: inherit;
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-height: 40px;
 }
-.card .card-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #222;
+.card.done .card-desc {
+  text-decoration: line-through;
+  color: #aaa;
+}
+.card .card-check {
+  margin-right: 12px;
+  cursor: pointer;
+}
+.card .card-check .circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #4f8cff;
+  background: #fff;
+  color: #4f8cff;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.card .card-check .circle.checked {
+  background: #4f8cff;
+  color: #fff;
 }
 .card .card-desc {
-  font-size: 0.9rem;
+  flex: 1;
+  font-size: 1rem;
   color: #222;
-  margin-top: 4px;
+  word-break: break-all;
+}
+.card .edit-card-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.card .edit-card-form input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 1rem;
+  margin-right: 8px;
+}
+.card .edit-card-form button {
+  width: 72px;
+  padding: 8px 0;
+  border-radius: 4px;
+  background: #4f8cff;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.card .card-menu {
+  margin-left: 12px;
 }/*# sourceMappingURL=Card.css.map */

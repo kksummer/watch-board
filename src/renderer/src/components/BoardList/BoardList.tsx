@@ -16,6 +16,8 @@ const BoardList: React.FC<BoardListProps> = ({ boards, onSelect, selectedId, upd
   const [editId, setEditId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
 
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
+
   // 仅演示，实际应由父组件管理boards
   const handleAddBoard = async (): Promise<void> => {
     if (newName.trim()) {
@@ -83,6 +85,29 @@ const BoardList: React.FC<BoardListProps> = ({ boards, onSelect, selectedId, upd
     }
   }, [adding])
 
+  React.useEffect(() => {
+    if (!editId) return
+    const handleClick = (e: MouseEvent): void => {
+      // const input = document.querySelector('input[value="' + editName + '"]')
+      const input = inputRef.current
+      if (input && !input.contains(e.target as Node)) {
+        setEditId(null)
+        setEditName('')
+      }
+    }
+    const handleEsc = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') {
+        setEditId(null)
+        setEditName('')
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    document.addEventListener('keydown', handleEsc)
+    return () => {
+      document.removeEventListener('mousedown', handleClick)
+      document.removeEventListener('keydown', handleEsc)
+    }
+  }, [editId, editName])
   return (
     <div className="board-list">
       {boards.map((board) => (
@@ -97,15 +122,28 @@ const BoardList: React.FC<BoardListProps> = ({ boards, onSelect, selectedId, upd
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
                 style={{ flex: 1, marginRight: 8 }}
+                autoFocus
+                ref={inputRef}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleEditConfirm()
+                  } else if (e.key === 'Escape') {
+                    setEditId(null)
+                    setEditName('')
+                  }
+                }}
               />
-              <button onClick={handleEditConfirm}>确认</button>
+              {/* <button onClick={handleEditConfirm}>确认</button> */}
             </div>
           ) : (
             <>
               {board.name || board.id}
               <BoardListMenu
+                boardId={board.id}
                 onEdit={() => handleEditBoard(board.id, board.name || board.id)}
-                onDelete={() => handleDeleteBoard(board.id)}
+                onDelete={() => {
+                  handleDeleteBoard(board.id)
+                }}
               />
             </>
           )}
@@ -121,7 +159,6 @@ const BoardList: React.FC<BoardListProps> = ({ boards, onSelect, selectedId, upd
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             placeholder="请输入看板名称"
-            style={{ marginBottom: 8 }}
             autoFocus
           />
           <button onClick={handleAddBoard}>确认</button>

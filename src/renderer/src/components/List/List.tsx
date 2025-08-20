@@ -1,19 +1,28 @@
 import React, { useState } from 'react'
 import './List.scss'
 import Card from '../Card/Card'
-import { ListType } from '../../types'
+// 新增 AddCard 组件
+const AddCard: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  <div className="card add-card" onClick={onClick}>
+    <span className="card-desc add-card-desc">+ 添加卡片</span>
+  </div>
+)
+import { BoardType, ListType } from '../../types'
 import ListMenu from './ListMenu'
 
 interface ListProps {
   list: ListType
+  boards: BoardType[]
+  boardId: string
+  updateBoards: (newBoards: BoardType[]) => Promise<void>
 }
 
-const List: React.FC<ListProps> = ({ list }) => {
+const List: React.FC<ListProps> = ({ list, boards, boardId, updateBoards }) => {
   const [cards, setCards] = useState(list.cards)
   const [adding, setAdding] = useState(false)
   const [newDesc, setNewDesc] = useState('')
   const [editingTitle, setEditingTitle] = useState(false)
-  const [title, setTitle] = useState(list.id)
+  const [title, setTitle] = useState(list.title)
 
   React.useEffect(() => {
     if (!adding) return
@@ -70,18 +79,69 @@ const List: React.FC<ListProps> = ({ list }) => {
           done: false
         }
       ])
+      updateBoards(
+        boards.map((b) =>
+          b.id === boardId
+            ? {
+                ...b,
+                lists: b.lists.map((l) =>
+                  l.id === list.id
+                    ? {
+                        ...l,
+                        cards: [
+                          ...cards,
+                          {
+                            id: `card-${Date.now()}`,
+                            desc: newDesc,
+                            time_stamp: Date.now().toString(),
+                            done: false
+                          }
+                        ]
+                      }
+                    : l
+                )
+              }
+            : b
+        )
+      )
       setAdding(false)
       setNewDesc('')
     }
   }
-
+  // 删除卡片
+  const handleDeleteCard = async (id: string): Promise<boolean> => {
+    if (window.confirm('确定要删除该卡片吗？')) {
+      console.log(`删除卡片: ${id}`)
+      setCards(cards.filter((c) => c.id !== id))
+      updateBoards(
+        boards.map((b) =>
+          b.id === boardId
+            ? {
+                ...b,
+                lists: b.lists.map((l) =>
+                  l.id === list.id ? { ...l, cards: l.cards.filter((c) => c.id !== id) } : l
+                )
+              }
+            : b
+        )
+      )
+    }
+    return true
+  }
   const handleEditTitle = (): void => {
     setEditingTitle(true)
   }
 
   const handleDeleteList = (): void => {
     if (window.confirm('确定要删除该列表吗？')) {
-      // 实际应调用父组件方法
+      // console.log(boards)
+      // console.log('boardId:', boardId)
+      // console.log(`listId: ${list.id}`)
+      const newLists =
+        boards.find((b) => b.id === boardId)?.lists.filter((l) => l.id !== list.id) || []
+      const newBoard = boards.map((b) => (b.id === boardId ? { ...b, lists: newLists } : b))
+      // console.log(newBoard)
+      updateBoards(newBoard)
     }
   }
   // 切换卡片的完成状态
@@ -90,42 +150,28 @@ const List: React.FC<ListProps> = ({ list }) => {
     setCards(cards.map((card) => (card.id === id ? { ...card, done: !card.done } : card)))
   }
 
-  // 删除卡片
-  const handleDeleteCard = async (id: string): Promise<boolean> => {
-    if (window.confirm('确定要删除该卡片吗？')) {
-      // 1. 获取整个 board 数据
-      const res = await window.api.getBoards()
-      const res_json = JSON.parse(res)
-      const boards = res_json.boards
-      console.log(boards)
-      // 2. 找到当前 list，删除卡片
-      const newBoard = {
-        ...boards[0],
-        lists: boards[0].lists.map((l: ListType) =>
-          l.id === list.id ? { ...l, cards: l.cards.filter((c) => c.id !== id) } : l
-        )
-      }
-      console.log(newBoard)
-      // 3. 更新 board 数据
-      await window.api.setBoards(newBoard)
-      // 4. 更新本地 cards 状态
-      setCards(cards.filter((c) => c.id !== id))
-    }
-    return true
-  }
-
   return (
     <div className={`list list-${list.id}`}>
       <div className="list-title-area">
         {editingTitle ? (
           <div className="edit-list-title-form">
-            <input value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
-            <button onClick={() => setEditingTitle(false)}>确认</button>
+            <input
+              value={title}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') setEditingTitle(false)
+              }}
+              onChange={(e) => setTitle(e.target.value)}
+              autoFocus
+            />
           </div>
         ) : (
           <>
             <span className="list-title">{title}</span>
-            <ListMenu onEdit={handleEditTitle} onDelete={handleDeleteList} />
+            <ListMenu
+              listId={list.id}
+              onEdit={handleEditTitle}
+              onDelete={() => handleDeleteList()}
+            />
           </>
         )}
       </div>
@@ -137,12 +183,12 @@ const List: React.FC<ListProps> = ({ list }) => {
               key={card.id}
               card={card}
               onToggleDone={() => handleToggleDone(card.id)}
-              onDelete={() => handleDeleteCard(card.id)}
+              onDelete={() => {
+                handleDeleteCard(card.id)
+              }}
             />
           ))}
-      </div>
-      <div className="add-card-li" onClick={() => setAdding(true)}>
-        + 添加卡片
+        {!adding && <AddCard onClick={() => setAdding(true)} />}
       </div>
       {adding && (
         <div className="add-card-form">
@@ -151,9 +197,10 @@ const List: React.FC<ListProps> = ({ list }) => {
             onChange={(e) => setNewDesc(e.target.value)}
             placeholder="请输入卡片内容"
             autoFocus
-            style={{ marginBottom: 8 }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleAddCard()
+            }}
           />
-          <button onClick={handleAddCard}>添加卡片</button>
         </div>
       )}
     </div>

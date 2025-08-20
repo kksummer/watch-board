@@ -1,3 +1,66 @@
+.add-card-form {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 12px 0 0 0;
+  width: 100%;
+  min-height: 54px;
+  input {
+    flex: 1;
+    height: 32px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+}
+.add-list-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  height: 40px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.add-list-form input {
+  flex: 1 1 auto;
+  height: 32px;
+  font-size: 15px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-right: 8px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.add-list-form button {
+  height: 32px;
+  width: 72px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
+  background: #1976d2;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.list.add-list {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  box-sizing: border-box;
+}
 // 卡片排序动画
 .card-animate {
   transition: all 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
@@ -10,6 +73,8 @@
 .list {
   background: #e3f0ff;
   border-radius: 16px;
+  max-height: 500px;
+  overflow-y: auto;
   box-shadow:
     0 4px 16px rgba(79, 140, 255, 0.12),
     0 1.5px 6px rgba(0, 0, 0, 0.08);
@@ -55,37 +120,17 @@
     gap: 12px;
   }
   .add-card-li {
-    margin-top: 8px;
-    padding: 8px 0;
+    margin: 8px 0;
     color: #4f8cff;
     cursor: pointer;
     font-weight: 500;
     background: none;
     border-radius: 0;
-    text-align: left;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
     &:hover {
       text-decoration: underline;
-    }
-  }
-  .add-card-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 8px 0;
-    input {
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #e5e7eb;
-      font-size: 1rem;
-    }
-    button {
-      padding: 8px;
-      border-radius: 4px;
-      background: #4f8cff;
-      color: #fff;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
     }
   }
 }
